@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "farsighted-mobs",
+  "version": "${version}",
+  "name": "Farsighted Mobs",
+  "description": "Helping nearsighted mobs to see once more",
+  "authors": [],
+  "contact": {},
+  "license": "GPL-3.0",
+  "icon": "assets/farsighted-mobs/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "sindarin.farsightedmobs.FarsightedMobs"
+    ]
+  },
+  "mixins": [
+    "farsighted-mobs.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.0+build.208",
+    "fabric": "*",
+    "minecraft": "1.16.3"
+  }
+}
