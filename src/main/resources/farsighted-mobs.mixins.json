@@ -5,7 +5,9 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "EntityTypeMixin",
-    "MobEntityMixin"
+    "FollowTargetGoalAccessor",
+    "HostileEntityMixin",
+    "MobEntityAccessor"
   ],
   "client": [
   ],
