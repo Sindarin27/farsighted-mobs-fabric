@@ -20,6 +20,7 @@
   "depends": {
     "fabricloader": ">=0.10.0+build.208",
     "fabric": "*",
-    "minecraft": "1.16.x"
+    "minecraft": "1.16.x",
+    "autoconfig1u": ">=3.2.2"
   }
 }
