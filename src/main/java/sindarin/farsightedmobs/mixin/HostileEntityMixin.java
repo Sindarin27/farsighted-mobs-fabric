@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sindarin.farsightedmobs.FarsightedMobs;
 
 @Mixin(value= HostileEntity.class)
-public class MobEntityMixin {
+public class HostileEntityMixin {
     @Inject(method="createHostileAttributes", at=@At(value="RETURN"))
     private static void createAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> ci) {
         int range = FarsightedMobs.CONFIG.hostileDefaultRange;
