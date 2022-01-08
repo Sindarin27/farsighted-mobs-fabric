@@ -6,13 +6,13 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.FollowTargetGoal;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.Identifier;
 import sindarin.farsightedmobs.config.ModConfig;
-import sindarin.farsightedmobs.mixin.FollowTargetGoalAccessor;
+import sindarin.farsightedmobs.mixin.ActiveTargetGoalAccessor;
 import sindarin.farsightedmobs.mixin.MobEntityAccessor;
 
 public class FarsightedMobs implements ModInitializer {
@@ -41,9 +41,9 @@ public class FarsightedMobs implements ModInitializer {
         if (livingEntity instanceof MobEntity) {
             ((MobEntityAccessor) livingEntity).getTargetSelector().getGoals().forEach(prioritizedGoal -> {
                 Goal goal = prioritizedGoal.getGoal();
-                if (goal instanceof FollowTargetGoal) {
-                    FollowTargetGoalAccessor followTargetGoal = (FollowTargetGoalAccessor)  goal;
-                    followTargetGoal.setTargetPredicate(followTargetGoal.getTargetPredicate()
+                if (goal instanceof ActiveTargetGoal) {
+                    ActiveTargetGoalAccessor activeTargetGoal = (ActiveTargetGoalAccessor)  goal;
+                    activeTargetGoal.setTargetPredicate(activeTargetGoal.getTargetPredicate()
                             .setBaseMaxDistance(livingEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)));
                 }
             });
