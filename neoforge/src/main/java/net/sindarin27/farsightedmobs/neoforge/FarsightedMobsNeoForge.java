@@ -2,12 +2,12 @@ package net.sindarin27.farsightedmobs.neoforge;
 
 import net.neoforged.fml.common.Mod;
 
-import net.sindarin27.farsightedmobs.ExampleMod;
+import net.sindarin27.farsightedmobs.FarsightedMobs;
 
-@Mod(ExampleMod.MOD_ID)
+@Mod(FarsightedMobs.MOD_ID)
 public final class FarsightedMobsNeoForge {
-    public ExampleModNeoForge() {
+    public FarsightedMobsNeoForge() {
         // Run our common setup.
-        ExampleMod.init();
+        FarsightedMobs.init();
     }
 }

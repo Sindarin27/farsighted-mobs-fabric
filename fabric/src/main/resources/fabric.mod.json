@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.sindarin27.farsightedmobs.fabric.ExampleModFabric"
+      "net.sindarin27.farsightedmobs.fabric.FarsightedMobsFabric"
     ],
     "client": [
-      "net.sindarin27.farsightedmobs.fabric.client.ExampleModFabricClient"
+      "net.sindarin27.farsightedmobs.fabric.client.FarsightedMobsFabricClient"
     ]
   },
   "mixins": [
