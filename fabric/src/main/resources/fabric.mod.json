@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "farsightedmobs",
+  "version": "${version}",
+  "name": "Farsighted Mobs",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/farsightedmobs/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.sindarin27.farsightedmobs.fabric.ExampleModFabric"
+    ],
+    "client": [
+      "net.sindarin27.farsightedmobs.fabric.client.ExampleModFabricClient"
+    ]
+  },
+  "mixins": [
+    "farsightedmobs.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.7",
+    "minecraft": "~1.21",
+    "java": ">=21",
+    "architectury": ">=13.0.2",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
