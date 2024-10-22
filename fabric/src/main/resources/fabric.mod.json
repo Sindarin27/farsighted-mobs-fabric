@@ -1,17 +1,17 @@
 {
   "schemaVersion": 1,
-  "id": "farsightedmobs",
+  "id": "${mod_id}",
   "version": "${version}",
-  "name": "Farsighted Mobs",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
   "authors": [
-    "Me!"
+    "${mod_authors}"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "${mod_website}",
+    "sources": "${mod_sources}"
   },
-  "license": "CC0-1.0",
+  "license": "${mod_license}",
   "icon": "assets/farsightedmobs/icon.png",
   "environment": "*",
   "entrypoints": {

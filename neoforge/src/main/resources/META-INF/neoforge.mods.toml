@@ -1,16 +1,14 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "${mod_license}"
 
 [[mods]]
-modId = "farsightedmobs"
+modId = "${mod_id}"
 version = "${version}"
-displayName = "Farsighted Mobs"
-authors = "Me!"
-description = '''
-This is an example description! Tell everyone what your mod is about!
-'''
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+description = '''${mod_description}'''
 logoFile = "icon.png"
 
 [[dependencies.farsightedmobs]]
