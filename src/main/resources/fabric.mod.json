@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "sindarin.farsightedmobs.FarsightedMobs"
+    ],
+    "modmenu": [
+      "sindarin.farsightedmobs.config.ModMenuIntegration"
     ]
   },
   "mixins": [

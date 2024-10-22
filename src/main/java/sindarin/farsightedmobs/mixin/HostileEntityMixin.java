@@ -16,7 +16,7 @@ public class HostileEntityMixin {
     @Inject(method="createHostileAttributes", at=@At(value="RETURN"))
     private static void createAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> ci) {
         int range = FarsightedMobs.CONFIG.hostileDefaultRange;
-        ci.getReturnValue().add(EntityAttributes.GENERIC_FOLLOW_RANGE, range);
+        ci.getReturnValue().add(EntityAttributes.FOLLOW_RANGE, range);
     }
 
 

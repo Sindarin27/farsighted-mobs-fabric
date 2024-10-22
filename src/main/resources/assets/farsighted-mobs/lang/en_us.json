@@ -1,0 +1,4 @@
+{
+  "text.autoconfig.farsighted_mobs.option.hostileDefaultRange": "Default follow range for hostile mobs",
+  "text.autoconfig.farsighted_mobs.option.followRanges": "Follow range overrides"
+}

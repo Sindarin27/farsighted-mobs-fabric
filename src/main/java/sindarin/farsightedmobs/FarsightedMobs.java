@@ -15,24 +15,24 @@ import sindarin.farsightedmobs.config.ModConfig;
 import sindarin.farsightedmobs.mixin.ActiveTargetGoalAccessor;
 import sindarin.farsightedmobs.mixin.MobEntityAccessor;
 
+import java.util.Objects;
+
 public class FarsightedMobs implements ModInitializer {
     public static ModConfig CONFIG = new ModConfig();
+
     @Override
     public void onInitialize() {
         AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class).getConfig();
     }
 
-    public static Entity upgradeEntity(Entity e) {
-        if (e instanceof LivingEntity) {
-            Identifier type = EntityType.getId(e.getType());
-            LivingEntity living = (LivingEntity)e;
-            if (FarsightedMobs.CONFIG.followRanges.containsKey(type.toString())) {
-                int range = FarsightedMobs.CONFIG.followRanges.get(type.toString());
-                living.getAttributeInstance(EntityAttributes.GENERIC_FOLLOW_RANGE).setBaseValue(range);
-                FixFollowRange(living);
-                return living;
-            }
+    public static Entity upgradeEntity(MobEntity e) {
+        Identifier type = EntityType.getId(e.getType());
+        if (FarsightedMobs.CONFIG.followRanges.containsKey(type.toString())) {
+            int range = FarsightedMobs.CONFIG.followRanges.get(type.toString());
+            e.getAttributeInstance(EntityAttributes.FOLLOW_RANGE).setBaseValue(range);
+            FixFollowRange(e);
+            return e;
         }
         return e;
     }
@@ -42,9 +42,9 @@ public class FarsightedMobs implements ModInitializer {
             ((MobEntityAccessor) livingEntity).getTargetSelector().getGoals().forEach(prioritizedGoal -> {
                 Goal goal = prioritizedGoal.getGoal();
                 if (goal instanceof ActiveTargetGoal) {
-                    ActiveTargetGoalAccessor activeTargetGoal = (ActiveTargetGoalAccessor)  goal;
+                    ActiveTargetGoalAccessor activeTargetGoal = (ActiveTargetGoalAccessor) goal;
                     activeTargetGoal.setTargetPredicate(activeTargetGoal.getTargetPredicate()
-                            .setBaseMaxDistance(livingEntity.getAttributeValue(EntityAttributes.GENERIC_FOLLOW_RANGE)));
+                            .setBaseMaxDistance(livingEntity.getAttributeValue(EntityAttributes.FOLLOW_RANGE)));
                 }
             });
         }
