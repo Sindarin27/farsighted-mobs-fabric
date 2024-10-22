@@ -71,4 +71,14 @@ subprojects {
             // retrieving dependencies.
         }
     }
+
+    processResources {
+        project.properties.each {
+            inputs.property "${it.key}", "${it.value}"
+        }
+
+        filesMatching([ '*.mixins.json', 'META-INF/neoforge.mods.toml', 'fabric.mod.json', '*.common.json', 'META-INF/mods.toml']) {
+            expand project.properties
+        }
+    }
 }
