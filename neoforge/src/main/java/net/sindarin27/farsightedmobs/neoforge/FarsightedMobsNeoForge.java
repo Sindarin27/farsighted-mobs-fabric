@@ -17,6 +17,6 @@ public final class FarsightedMobsNeoForge {
 
     @SubscribeEvent
     public static void OnFinalizeSpawnEvent(FinalizeSpawnEvent event) {
-        FarsightedMobs.OnMobSpawn(event.getEntity());
+        FarsightedMobs.OnMobSpawn(event.getLevel().getLevel(), event.getEntity());
     }
 }

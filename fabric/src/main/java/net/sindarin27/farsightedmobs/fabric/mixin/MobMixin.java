@@ -15,6 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MobMixin {
     @Inject(method = "finalizeSpawn", at=@At("RETURN"))
     private void finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
-        FarsightedMobs.OnMobSpawn((Mob)(Object)this); // Such an ugly cast, but it's required. "this" does refer to the Mob object, but the compiler gets confused due to the mixin class.
+        FarsightedMobs.OnMobSpawn(serverLevelAccessor.getLevel(), (Mob)(Object)this); // Such an ugly cast, but it's required. "this" does refer to the Mob object, but the compiler gets confused due to the mixin class.
     }
 }
