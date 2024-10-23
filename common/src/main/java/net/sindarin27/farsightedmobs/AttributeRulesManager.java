@@ -43,6 +43,7 @@ public class AttributeRulesManager extends SimpleJsonResourceReloadListener {
                 continue; //Forge: filter anything beginning with "_" as it's used for metadata. Just in case.
             try {
                 AttributeRule decoded = AttributeRule.CODEC.codec().parse(registryOps, entry.getValue()).getOrThrow(JsonParseException::new);
+                decoded.identifier = resourcelocation;
                 rules.add(decoded);
             } catch (IllegalArgumentException | JsonParseException jsonparseexception) {
                 LOGGER.error("Parsing error loading rule {}", resourcelocation, jsonparseexception);

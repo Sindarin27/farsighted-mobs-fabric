@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,12 +19,15 @@ public class AttributeRule {
     private final Optional<Double> attributeBase;
     private final Optional<AttributeModifier> attributeModifier;
     private final int priority;
+    public ResourceLocation identifier = ResourceLocation.fromNamespaceAndPath(FarsightedMobs.MOD_ID, "unnamed");
 
-    public void Apply(ServerLevel level, Mob mob) {
+    public boolean Apply(ServerLevel level, Mob mob) {
         if (predicate.matches(level, mob.position(), mob)) {
             attributeBase.ifPresent(base -> AttributeUtility.ChangeBaseAttributeValue(mob, attribute, base));
             attributeModifier.ifPresent(modifier -> AttributeUtility.AddAttributeModifier(mob, attribute, modifier));
+            return true;
         }
+        return false;
     }
 
     public AttributeRule(int priority, EntityPredicate predicate, Holder<Attribute> attribute, Optional<Double> baseValue, Optional<AttributeModifier> modifierValue) {

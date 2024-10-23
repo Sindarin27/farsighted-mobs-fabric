@@ -3,6 +3,7 @@ package net.sindarin27.farsightedmobs;
 import com.google.common.base.Suppliers;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.MapCodec;
+import dev.architectury.platform.Platform;
 import dev.architectury.registry.ReloadListenerRegistry;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrarManager;
@@ -26,10 +27,11 @@ public final class FarsightedMobs {
     public static final Supplier<RegistrarManager> MANAGER = Suppliers.memoize(() -> RegistrarManager.get(MOD_ID));
 
     public static final AttributeRulesManager attributeRulesManager = new AttributeRulesManager();
+    static final boolean DEBUG = Platform.isDevelopmentEnvironment();
     
     public static void init() {
         // Write common init code here.
-
+        LOGGER.info("Starting initialisation for {}", MOD_ID);
 
         // Make the attributes rules manager listen to datapack reloads with its logical namespace. 
         // For fabric: it is dependent on all built-in (vanilla) registries
@@ -46,12 +48,17 @@ public final class FarsightedMobs {
         
         EntityPredicate.Builder predicateBuilder = new EntityPredicate.Builder();
         predicateBuilder.subPredicate(MonsterEntityPredicate.INSTANCE);
+
+        LOGGER.info("Finished initialisation for {}", MOD_ID);
 //        attributeRulesManager.rules.add(new AttributeRule(predicateBuilder.build(), Attributes.FOLLOW_RANGE, 32));
     }
     
     public static void OnMobSpawn(ServerLevel level, Mob mob) {
         // Handle attribute rules
-        attributeRulesManager.GetRules().forEachOrdered(rule -> rule.Apply(level, mob));
+        attributeRulesManager.GetRules().forEachOrdered(rule -> {
+            boolean applied = rule.Apply(level, mob);
+            if (DEBUG) LOGGER.info("Rule {} with priority {} on mob {} evaluated as {}", rule.identifier, rule.getPriority(), mob.getType().getDescriptionId(), applied);
+        });
         
         // Fix the minecraft bug that causes entities to never update their follow range by updating it once they spawn
         FixFollowRange(mob);

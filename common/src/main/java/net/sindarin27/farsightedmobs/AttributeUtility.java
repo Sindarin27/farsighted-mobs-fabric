@@ -32,7 +32,7 @@ public class AttributeUtility {
     }
 
     // Workaround for MC-145656 (https://bugs.mojang.com/browse/MC-145656)
-    // Should no longer be needed from 1.21.1 onwards
+    // Should no longer be needed from 1.21.1 onwards, but does no harm either
     public static void FixFollowRange(Mob mob) {
         mob.targetSelector.getAvailableGoals().forEach(wrappedGoal -> {
             Goal goal = wrappedGoal.getGoal();
