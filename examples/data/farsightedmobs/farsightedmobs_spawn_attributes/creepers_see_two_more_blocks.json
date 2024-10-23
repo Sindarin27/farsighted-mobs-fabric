@@ -1,0 +1,17 @@
+{
+  "condition": {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+      "type": "minecraft:creeper"
+    }
+  },
+  "attributes": {
+    "key": "minecraft:generic.follow_range",
+    "modifier": {
+      "id": "farsightedmobs:creeperbonus",
+      "amount": 2,
+      "operation": "add_value"
+    }
+  }
+}

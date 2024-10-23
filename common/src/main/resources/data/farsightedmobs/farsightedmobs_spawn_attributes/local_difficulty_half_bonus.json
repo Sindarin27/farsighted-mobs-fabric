@@ -1,0 +1,30 @@
+{
+  "condition": {
+    "condition": "minecraft:all_of",
+    "terms": [
+      {
+        "condition": "farsightedmobs:clamped_local_difficulty",
+        "value": {
+          "min": 0.5
+        }
+      },
+      {
+        "condition": "minecraft:entity_properties",
+        "entity": "this",
+        "predicate": {
+          "type_specific": {
+            "type": "farsightedmobs:monster"
+          }
+        }
+      }
+    ]
+  },
+  "attributes": {
+    "key": "minecraft:generic.follow_range",
+    "modifier": {
+      "id": "farsightedmobs:local_difficulty_half_bonus",
+      "amount": 0.2,
+      "operation": "add_multiplied_total"
+    }
+  }
+}

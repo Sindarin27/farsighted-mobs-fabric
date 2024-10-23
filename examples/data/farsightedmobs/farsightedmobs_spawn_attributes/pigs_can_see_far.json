@@ -1,0 +1,15 @@
+{
+  "condition": {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+      "type": [
+        "minecraft:pig"
+      ]
+    }
+  },
+  "attributes": {
+    "key": "minecraft:generic.follow_range",
+    "base": 64
+  }
+}

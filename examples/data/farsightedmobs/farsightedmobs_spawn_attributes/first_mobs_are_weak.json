@@ -1,0 +1,24 @@
+{
+  "condition": {
+    "condition": "minecraft:entity_properties",
+    "entity": "attacker",
+    "predicate": {
+      "type_specific": {
+        "type": "minecraft:player",
+        "advancements": {
+          "minecraft:adventure/kill_a_mob": false
+        }
+      }
+    }
+  },
+  "attributes": {
+    "key": "minecraft:generic.max_health",
+    "base": {
+      "value": {
+        "min": 2,
+        "max": 6
+      },
+      "condition": "smaller_than_base"
+    }
+  }
+}

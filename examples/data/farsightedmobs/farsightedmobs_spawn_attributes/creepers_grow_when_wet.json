@@ -1,0 +1,35 @@
+{
+  "condition": {
+    "condition": "minecraft:all_of",
+    "terms": [
+      {
+        "condition": "minecraft:entity_properties",
+        "entity": "this",
+        "predicate": {
+          "type": "minecraft:creeper"
+        }
+      },
+      {
+        "condition": "minecraft:weather_check",
+        "raining": true
+      }
+    ]
+  }
+,
+  "attributes": [{
+    "key": "minecraft:generic.scale",
+    "modifier": {
+      "id": "farsightedmobs:well_watered_creeper",
+      "amount": 0.2,
+      "operation": "add_multiplied_total"
+    }
+  }, {
+      "key": "minecraft:generic.max_health",
+      "modifier": {
+        "id": "farsightedmobs:well_watered_creeper",
+        "amount": 0.5,
+        "operation": "add_multiplied_total"
+      }
+    }
+  ]
+}

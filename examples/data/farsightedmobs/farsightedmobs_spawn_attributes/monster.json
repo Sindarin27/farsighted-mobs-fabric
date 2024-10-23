@@ -1,0 +1,19 @@
+{
+  "condition": {
+    "condition": "minecraft:entity_properties",
+    "entity": "this",
+    "predicate": {
+      "type_specific": {
+        "type": "farsightedmobs:monster"
+      }
+    }
+  },
+  "attributes": {
+    "key": "minecraft:generic.follow_range",
+    "base": {
+      "value": 24,
+      "condition": "greater_than_base"
+    }
+  },
+  "priority": -1
+}

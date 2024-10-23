@@ -1,0 +1,28 @@
+{
+  "condition": {
+    "condition": "minecraft:all_of",
+    "terms": [
+      {
+        "condition": "farsightedmobs:difficulty",
+        "value": 3
+      },
+      {
+        "condition": "minecraft:entity_properties",
+        "entity": "this",
+        "predicate": {
+          "type_specific": {
+            "type": "farsightedmobs:monster"
+          }
+        }
+      }
+    ]
+  },
+  "attributes": {
+    "key": "minecraft:generic.follow_range",
+    "modifier": {
+      "id": "farsightedmobs:sight_bonus_hard",
+      "amount": 8,
+      "operation": "add_value"
+    }
+  }
+}
