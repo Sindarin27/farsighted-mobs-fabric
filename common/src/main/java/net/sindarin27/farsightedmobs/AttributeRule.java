@@ -18,7 +18,9 @@ import java.util.Optional;
 
 public class AttributeRule {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private final Holder<LootItemCondition> condition;
+    // Yes, it's called a *loot item* condition. Yes, it's far more flexible than that. 
+    // Really it's just a *condition with context*.
+    private final LootItemCondition condition;
     private final Holder<Attribute> attribute;
     private final Optional<AttributeBaseValue> attributeBase;
     private final Optional<AttributeModifier> attributeModifier;
@@ -27,7 +29,7 @@ public class AttributeRule {
 
     public boolean Apply(ServerLevel level, Mob mob) {
         LootContext context = null;//TODO
-        if (condition.value().test(context)) {
+        if (condition.test(context)) {
             attributeBase.ifPresent(base -> 
             {
                 if (base.evaluateCondition(mob.getAttributeValue(attribute))) {
@@ -44,7 +46,7 @@ public class AttributeRule {
         return false;
     }
 
-    public AttributeRule(int priority, Holder<LootItemCondition> condition, Holder<Attribute> attribute, Optional<AttributeBaseValue> baseValue, Optional<AttributeModifier> modifierValue) {
+    public AttributeRule(int priority, LootItemCondition condition, Holder<Attribute> attribute, Optional<AttributeBaseValue> baseValue, Optional<AttributeModifier> modifierValue) {
         this.priority = priority;
         this.condition = condition;
         this.attribute = attribute;
@@ -56,7 +58,8 @@ public class AttributeRule {
 
     public static MapCodec<AttributeRule> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(rule -> rule.priority),
-                    LootItemCondition.CODEC.fieldOf("condition").forGetter(rule -> rule.condition),
+                    // Mojang generally uses the DIRECT_CODEC instead of the normal CODEC (which returns a Holder)
+                    LootItemCondition.DIRECT_CODEC.fieldOf("condition").forGetter(rule -> rule.condition),
                     Attribute.CODEC.fieldOf("attribute").forGetter(rule -> rule.attribute),
                     AttributeBaseValue.CODEC.optionalFieldOf("base").forGetter(rule -> rule.attributeBase),
                     AttributeModifier.CODEC.optionalFieldOf("modifier").forGetter(rule -> rule.attributeModifier)
