@@ -56,9 +56,10 @@ public class AttributeRule {
         if (condition.test(context)) {
             attributeBase.ifPresent(base -> 
             {
-                if (base.evaluateCondition(mob.getAttributeValue(attribute))) {
+                double newBaseValue = base.getValue(context);
+                if (base.getCondition().Evaluate(mob.getAttributeValue(attribute), newBaseValue)) {
                     if (FarsightedMobs.DEBUG) LOGGER.info("Base value condition applied for rule {}", identifier);
-                    AttributeUtility.ChangeBaseAttributeValue(mob, attribute, base.getValue());
+                    AttributeUtility.ChangeBaseAttributeValue(mob, attribute, newBaseValue);
                 }
                 else {
                     if (FarsightedMobs.DEBUG) LOGGER.info("Base value condition did not apply for rule {}", identifier);
