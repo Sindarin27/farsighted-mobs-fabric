@@ -40,11 +40,17 @@ public class AttributeRule {
         // For fun, get the closest player to allow datapack users to do magic
         Player closestPlayer = level.getNearestPlayer(mob, 2048);
         
-        LootParams params = new LootParams.Builder(level)
+        LootParams.Builder paramsBuilder = new LootParams.Builder(level)
                 .withParameter(LootContextParams.THIS_ENTITY, mob) // "this" is the mob being spawned
                 .withParameter(LootContextParams.ORIGIN, mob.position()) // origin is the mob's spawn position
-                .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, closestPlayer) // if a player is in range, it's the "attacking_entity"
-                .create(SPAWN_CONDITION);
+                ;
+        if (closestPlayer != null) {
+            // If a player is in range, add their luck and add them as the "attacking" entity
+            paramsBuilder
+                    .withLuck(closestPlayer.getLuck())
+                    .withParameter(LootContextParams.ATTACKING_ENTITY, closestPlayer);
+        }
+        LootParams params = paramsBuilder.create(SPAWN_CONDITION);
         
         LootContext context = new LootContext.Builder(params).create(Optional.empty());
         if (condition.test(context)) {
