@@ -6,6 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MonsterEntityPredicate implements EntitySubPredicate {
@@ -15,7 +16,7 @@ public class MonsterEntityPredicate implements EntitySubPredicate {
     private MonsterEntityPredicate() {}
     
     @Override
-    public MapCodec<? extends EntitySubPredicate> codec() {
+    public @NotNull MapCodec<? extends EntitySubPredicate> codec() {
         return CODEC;
     }
 
