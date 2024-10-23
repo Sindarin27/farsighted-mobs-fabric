@@ -17,7 +17,11 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.sindarin27.farsightedmobs.predicates.DifficultyPredicate;
+import net.sindarin27.farsightedmobs.predicates.MoonBrightnessPredicate;
+import net.sindarin27.farsightedmobs.predicates.MoonPhasePredicate;
 import net.sindarin27.farsightedmobs.predicates.entity.MonsterEntityPredicate;
+import net.sindarin27.farsightedmobs.predicates.origin.ClampedLocalDifficultyPredicate;
+import net.sindarin27.farsightedmobs.predicates.origin.LocalDifficultyPredicate;
 import org.slf4j.Logger;
 
 import java.util.function.Supplier;
@@ -34,6 +38,8 @@ public final class FarsightedMobs {
     public static RegistrySupplier<LootItemConditionType> DIFFICULTY_PREDICATE;
     public static RegistrySupplier<LootItemConditionType> LOCAL_DIFFICULTY_PREDICATE;
     public static RegistrySupplier<LootItemConditionType> CLAMPED_LOCAL_DIFFICULTY_PREDICATE;
+    public static RegistrySupplier<LootItemConditionType> MOON_PHASE_PREDICATE;
+    public static RegistrySupplier<LootItemConditionType> MOON_BRIGHTNESS_PREDICATE;
 
     public static void init() {
         // Write common init code here.
@@ -56,6 +62,22 @@ public final class FarsightedMobs {
         DIFFICULTY_PREDICATE = lootConditionTypes.register(
                 ResourceLocation.fromNamespaceAndPath(MOD_ID, "difficulty"),
                 () -> new LootItemConditionType(DifficultyPredicate.CODEC)
+        );
+        LOCAL_DIFFICULTY_PREDICATE = lootConditionTypes.register(
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "local_difficulty"),
+                () -> new LootItemConditionType(LocalDifficultyPredicate.CODEC)
+        );
+        CLAMPED_LOCAL_DIFFICULTY_PREDICATE = lootConditionTypes.register(
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "clamped_local_difficulty"),
+                () -> new LootItemConditionType(ClampedLocalDifficultyPredicate.CODEC)
+        );
+        MOON_PHASE_PREDICATE = lootConditionTypes.register(
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "moon_phase"),
+                () -> new LootItemConditionType(MoonPhasePredicate.CODEC)
+        );
+        MOON_BRIGHTNESS_PREDICATE = lootConditionTypes.register(
+                ResourceLocation.fromNamespaceAndPath(MOD_ID, "moon_brightness"),
+                () -> new LootItemConditionType(MoonBrightnessPredicate.CODEC)
         );
 
         EntityPredicate.Builder predicateBuilder = new EntityPredicate.Builder();

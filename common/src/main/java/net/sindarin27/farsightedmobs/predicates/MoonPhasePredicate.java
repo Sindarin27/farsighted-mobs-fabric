@@ -12,13 +12,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
-public record DifficultyPredicate(IntRange value) implements LootItemCondition {
-    public static final MapCodec<DifficultyPredicate> CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(IntRange.CODEC.fieldOf("value").forGetter(DifficultyPredicate::value))
-                    .apply(instance, DifficultyPredicate::new)
+public record MoonPhasePredicate(IntRange value) implements LootItemCondition {
+    public static final MapCodec<MoonPhasePredicate> CODEC = RecordCodecBuilder.mapCodec(
+            instance -> instance.group(IntRange.CODEC.fieldOf("value").forGetter(MoonPhasePredicate::value))
+                    .apply(instance, MoonPhasePredicate::new)
     );
     @Override
-    public @NotNull LootItemConditionType getType() { return FarsightedMobs.DIFFICULTY_PREDICATE.get(); }
+    public @NotNull LootItemConditionType getType() { return FarsightedMobs.MOON_PHASE_PREDICATE.get(); }
 
     @Override
     public @NotNull Set<LootContextParam<?>> getReferencedContextParams() {
@@ -27,6 +27,6 @@ public record DifficultyPredicate(IntRange value) implements LootItemCondition {
 
     @Override
     public boolean test(LootContext lootContext) {
-        return this.value.test(lootContext, lootContext.getLevel().getDifficulty().getId());
+        return this.value.test(lootContext, lootContext.getLevel().getMoonPhase());
     }
 }
