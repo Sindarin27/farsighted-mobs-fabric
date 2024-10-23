@@ -57,3 +57,5 @@ shadowJar {
 remapJar {
     input.set shadowJar.archiveFile
 }
+
+apply from: '../loader.gradle'

@@ -1,0 +1,12 @@
+evaluationDependsOn(':common')
+
+def loomPlatform = project.property('loom.platform')
+def projectName
+if(loomPlatform == 'neoforge')
+    projectName = 'NeoForge'
+else if(loomPlatform == 'fabric')
+    projectName = 'Fabric'
+else if (loomPlatform == 'forge') {
+    projectName = 'Forge'
+}
+
