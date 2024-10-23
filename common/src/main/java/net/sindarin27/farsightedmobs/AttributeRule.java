@@ -4,20 +4,21 @@ import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.slf4j.Logger;
 
 import java.util.Optional;
 
 public class AttributeRule {
     private static final Logger LOGGER = LogUtils.getLogger();
-    private final EntityPredicate predicate;
+    private final Holder<LootItemCondition> condition;
     private final Holder<Attribute> attribute;
     private final Optional<AttributeBaseValue> attributeBase;
     private final Optional<AttributeModifier> attributeModifier;
@@ -25,7 +26,8 @@ public class AttributeRule {
     public ResourceLocation identifier = ResourceLocation.fromNamespaceAndPath(FarsightedMobs.MOD_ID, "unnamed");
 
     public boolean Apply(ServerLevel level, Mob mob) {
-        if (predicate.matches(level, mob.position(), mob)) {
+        LootContext context = null;//TODO
+        if (condition.value().test(context)) {
             attributeBase.ifPresent(base -> 
             {
                 if (base.evaluateCondition(mob.getAttributeValue(attribute))) {
@@ -42,9 +44,9 @@ public class AttributeRule {
         return false;
     }
 
-    public AttributeRule(int priority, EntityPredicate predicate, Holder<Attribute> attribute, Optional<AttributeBaseValue> baseValue, Optional<AttributeModifier> modifierValue) {
+    public AttributeRule(int priority, Holder<LootItemCondition> condition, Holder<Attribute> attribute, Optional<AttributeBaseValue> baseValue, Optional<AttributeModifier> modifierValue) {
         this.priority = priority;
-        this.predicate = predicate;
+        this.condition = condition;
         this.attribute = attribute;
         this.attributeBase = baseValue;
         this.attributeModifier = modifierValue;
@@ -54,7 +56,7 @@ public class AttributeRule {
 
     public static MapCodec<AttributeRule> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                     Codec.INT.optionalFieldOf("priority", 0).forGetter(rule -> rule.priority),
-                    EntityPredicate.CODEC.fieldOf("predicate").forGetter(rule -> rule.predicate),
+                    LootItemCondition.CODEC.fieldOf("condition").forGetter(rule -> rule.condition),
                     Attribute.CODEC.fieldOf("attribute").forGetter(rule -> rule.attribute),
                     AttributeBaseValue.CODEC.optionalFieldOf("base").forGetter(rule -> rule.attributeBase),
                     AttributeModifier.CODEC.optionalFieldOf("modifier").forGetter(rule -> rule.attributeModifier)
