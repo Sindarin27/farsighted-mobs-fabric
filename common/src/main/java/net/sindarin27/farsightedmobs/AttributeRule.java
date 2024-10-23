@@ -10,7 +10,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.slf4j.Logger;
 
@@ -26,9 +30,23 @@ public class AttributeRule {
     private final Optional<AttributeModifier> attributeModifier;
     private final int priority;
     public ResourceLocation identifier = ResourceLocation.fromNamespaceAndPath(FarsightedMobs.MOD_ID, "unnamed");
-
+    public static final LootContextParamSet SPAWN_CONDITION = LootContextParamSet.builder()
+            .required(LootContextParams.THIS_ENTITY)
+            .required(LootContextParams.ORIGIN)
+            .optional(LootContextParams.ATTACKING_ENTITY)
+            .build();
+    
     public boolean Apply(ServerLevel level, Mob mob) {
-        LootContext context = null;//TODO
+        // For fun, get the closest player to allow datapack users to do magic
+        Player closestPlayer = level.getNearestPlayer(mob, 2048);
+        
+        LootParams params = new LootParams.Builder(level)
+                .withParameter(LootContextParams.THIS_ENTITY, mob) // "this" is the mob being spawned
+                .withParameter(LootContextParams.ORIGIN, mob.position()) // origin is the mob's spawn position
+                .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, closestPlayer) // if a player is in range, it's the "attacking_entity"
+                .create(SPAWN_CONDITION);
+        
+        LootContext context = new LootContext.Builder(params).create(Optional.empty());
         if (condition.test(context)) {
             attributeBase.ifPresent(base -> 
             {
