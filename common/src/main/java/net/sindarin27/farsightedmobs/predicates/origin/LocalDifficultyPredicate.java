@@ -10,8 +10,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
-import net.minecraft.world.phys.Vec3;
 import net.sindarin27.farsightedmobs.FarsightedMobs;
+import net.sindarin27.farsightedmobs.WorldUtility;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -26,17 +26,17 @@ public record LocalDifficultyPredicate(MinMaxBounds.Doubles value) implements Lo
 
     @Override
     public @NotNull Set<LootContextParam<?>> getReferencedContextParams() {
-        return Set.of(LootContextParams.ORIGIN);
+        return Set.of(LootContextParams.THIS_ENTITY);
     }
 
     @Override
     public boolean test(LootContext lootContext) {
-        if (!lootContext.hasParam(LootContextParams.ORIGIN)) return false;
-        Vec3 pos = lootContext.getParam(LootContextParams.ORIGIN);
+        if (!lootContext.hasParam(LootContextParams.THIS_ENTITY)) return false;
+        BlockPos pos = lootContext.getParam(LootContextParams.THIS_ENTITY).blockPosition();
         // DifficultyInstance:
         // "effective difficulty" is what minecraft.wiki calls "Regional difficulty"
         // "special multiplier" is what minecraft.wiki calls "Clamped regional difficulty"
-        DifficultyInstance difficultyInstance = lootContext.getLevel().getCurrentDifficultyAt(BlockPos.containing(pos));
+        DifficultyInstance difficultyInstance = WorldUtility.getCurrentDifficultySafely(lootContext.getLevel(), pos);
         return this.value.matches(difficultyInstance.getEffectiveDifficulty());
     }
 }

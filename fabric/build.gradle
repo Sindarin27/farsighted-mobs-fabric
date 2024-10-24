@@ -1,5 +1,6 @@
 plugins {
     id 'com.github.johnrengelman.shadow'
+    id "me.shedaniel.unified-publishing"
 }
 
 architectury {
@@ -54,4 +55,63 @@ remapJar {
     input.set shadowJar.archiveFile
 }
 
-apply from: '../loader.gradle'
+def loomPlatform = project.property('loom.platform')
+def projectName
+if(loomPlatform == 'neoforge')
+    projectName = 'NeoForge'
+else if(loomPlatform == 'fabric')
+    projectName = 'Fabric'
+else if (loomPlatform == 'forge') {
+    projectName = 'Forge'
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[${projectName}] ${rootProject.minecraft_version} - ${rootProject.mod_version}"
+        version="${rootProject.mod_version}"
+        releaseType = "${rootProject.mod_release_type}".toLowerCase()
+        //changelog = new File("${rootProject.projectDir}/changelog.html").text
+        gameVersions = [rootProject.minecraft_version]
+        mainPublication remapJar
+        gameLoaders = ["${loomPlatform}"]
+
+        if (loomPlatform == 'fabric') {
+            relations {
+                depends {
+                    curseforge="fabric-api"
+                    modrinth="fabric-api"
+                }
+                depends {
+                    curseforge="architectury-api"
+                    modrinth="architectury-api"
+                }
+            }
+        } else if (loomPlatform == 'forge') {
+            relations {
+                depends {
+                    curseforge="architectury-api"
+                    modrinth="architectury-api"
+                }
+            }
+        }
+
+        var CURSE_API_KEY = project.findProperty("curseforge_token") ?: System.getenv("curseforge_token") ?: ""
+        if (CURSE_API_KEY != "") {
+            curseforge {
+                token = CURSE_API_KEY
+                id = "${rootProject.curseforge_id}"
+                gameVersions.addAll "Java ${rootProject.java_version}"
+            }
+        }
+
+        var MODRINTH_TOKEN = project.findProperty("modrinth_token") ?: System.getenv("modrinth_token") ?: ""
+        if (MODRINTH_TOKEN != "") {
+            modrinth {
+                token = MODRINTH_TOKEN
+                id = "${rootProject.modrinth_id}"
+            }
+        }
+    }
+}
+
+rootProject.tasks.getByName("modPublish").dependsOn tasks.getByName("publishUnified")
